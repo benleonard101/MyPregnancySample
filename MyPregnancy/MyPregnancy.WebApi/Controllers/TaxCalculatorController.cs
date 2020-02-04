@@ -13,7 +13,7 @@
         private readonly ILogger _logger;
         private readonly ITaxCalculatorFactory _taxCalculatorFactory;
 
-        public TaxCalculatorController(ILogger<PatientsController> logger, ITaxCalculatorFactory taxCalculatorFactory)
+        public TaxCalculatorController(ILogger<TaxCalculatorController> logger, ITaxCalculatorFactory taxCalculatorFactory)
         {
             _logger = logger;
             _taxCalculatorFactory = taxCalculatorFactory;
@@ -21,9 +21,9 @@
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Get([FromQuery] TaxCalculationDto dto)
+        public IActionResult GetTaxCalculation([FromQuery] TaxCalculationDto dto)
         {
-            _logger.LogInformation($"Entering {nameof(Get)}");
+            _logger.LogInformation($"Entering {nameof(GetTaxCalculation)}");
 
             var taxCalculator = _taxCalculatorFactory.CreateTaxCalculator(dto.CalculationType);
 

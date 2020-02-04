@@ -1,8 +1,5 @@
 namespace MyPregnancy.WebApi.Tests.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoFixture;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
@@ -12,11 +9,14 @@ namespace MyPregnancy.WebApi.Tests.Controllers
     using MyPregnancy.Application.Patients.Queries.GetPatient;
     using MyPregnancy.Common.Dtos;
     using MyPregnancy.WebApi.Controllers;
-    using NUnit.Framework;
     using NSubstitute;
+    using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
-    public class Tests
+    public class PatientsControllerTests
     {
         [Test]
         public async Task PatientsControllerCreate_ValidCreatePatientCommand_CommandSentSuccessfully()
