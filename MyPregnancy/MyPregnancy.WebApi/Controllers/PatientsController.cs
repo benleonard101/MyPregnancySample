@@ -4,13 +4,12 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using MyPregnancy.Application.Exceptions;
     using MyPregnancy.Application.Patients.Commands.CreatePatient;
     using MyPregnancy.Application.Patients.Queries.GetAllPatients;
     using MyPregnancy.Application.Patients.Queries.GetPatient;
-    using System.Threading.Tasks;
     using System.Linq;
-    using FluentValidation.Results;
-    using MyPregnancy.Application.Exceptions;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]

@@ -1,7 +1,6 @@
 ﻿namespace MyPregnancy.Application.Patients.Queries.GetAllPatients
 {
     using FluentValidation;
-    using MyPregnancy.Application.Patients.Queries.GetAllPatients;
 
     public class GetAllPatientsQueryValidator : AbstractValidator<GetAllPatientsQuery>
     {

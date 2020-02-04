@@ -3,6 +3,7 @@
     using AutoMapper;
     using MediatR;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
     using MyPregnancy.Application.Exceptions;
     using MyPregnancy.Application.Interfaces;
     using MyPregnancy.Common.Dtos;
@@ -10,7 +11,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Logging;
 
     public class GetPatientQueryHandler : IRequestHandler<GetPatientQuery, PatientDto>
     {

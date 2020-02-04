@@ -1,12 +1,10 @@
 ﻿namespace MyPregnancy.Application.Tests.Patients.Commands.CreatePatient
 {
-    using System;
-    using NUnit.Framework;
+    using AutoFixture;
     using FluentValidation.TestHelper;
     using MyPregnancy.Application.Patients.Commands.CreatePatient;
-    using AutoFixture;
-    using FluentValidation.Results;
     using MyPregnancy.Common;
+    using NUnit.Framework;
 
     public class CreatePatientCommandValidatorTests
     {

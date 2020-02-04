@@ -2,23 +2,21 @@
 {
     using Application;
     using Application.Patients.Queries.GetPatient;
+    using FluentValidation;
     using FluentValidation.AspNetCore;
     using MediatR;
     using MediatR.Pipeline;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using MyPregnancy.Application.Infrastructure;
     using MyPregnancy.Application.Patients.Commands.CreatePatient;
     using MyPregnancy.TaxCalculators;
     using MyPregnancy.WebApi.Middleware;
     using Persistence;
     using System.Reflection;
-    using FluentValidation;
 
     public class Startup
     {
