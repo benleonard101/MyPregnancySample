@@ -41,17 +41,10 @@
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 
-
             services.AddApplicationInsightsTelemetry();
             services.AddSwaggerDocument();
 
-
-            ServiceProvider sp = services.BuildServiceProvider();
-
-            var ben = sp.GetService<ILogger>();
-            services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>());
 
             services.AddTransient<IValidator<GetPatientQuery>, GetPatientQueryValidator>();
         }
