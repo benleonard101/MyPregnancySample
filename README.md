@@ -1,2 +1,2 @@
 # MyPregnancy
-Provide admin and user functionalities needed during pregnancy
+SImple .net core api sample
