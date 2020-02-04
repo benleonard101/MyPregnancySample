@@ -29,7 +29,7 @@
     <ProjectReference Include="..\MyPregnancy.Application\MyPregnancy.Application.csproj" />
     <ProjectReference Include="..\MyPregnancy.Infrastructure\MyPregnancy.Infrastructure.csproj" />
     <ProjectReference Include="..\MyPregnancy.Persistence\MyPregnancy.Persistence.csproj" />
-    <ProjectReference Include="..\MyPregnancy\MyPregnancy.TaxCalculators.csproj" />
+    <ProjectReference Include="..\MyPregnancy.TaxCalculators\MyPregnancy.TaxCalculators.csproj" />
   </ItemGroup>
 
 </Project>
