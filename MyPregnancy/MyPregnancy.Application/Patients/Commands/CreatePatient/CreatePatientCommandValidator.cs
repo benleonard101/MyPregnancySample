@@ -18,10 +18,10 @@
             RuleFor(m => m.MobileTelephone).Length(1, 20).NotEmpty().When(m => string.IsNullOrEmpty(m.HomeTelephone));
             RuleFor(m => m.HomeTelephone).Length(1, 20).NotEmpty().When(m => string.IsNullOrEmpty(m.MobileTelephone));
 
+
             // Medical Details
-            RuleFor(x => x.BloodGroup).IsInEnum().NotEmpty();
+            RuleFor(x => x.BloodGroup).IsInEnum();
             RuleFor(x => x.HealthCareNumber).Length(1, 20).NotEmpty();
-            //RuleFor(x => x.HospitalNumber).Length(1, 20).NotEmpty();
             RuleFor(x => x.KnownAllergies).Length(1, 60).NotEmpty();
 
             // Address
