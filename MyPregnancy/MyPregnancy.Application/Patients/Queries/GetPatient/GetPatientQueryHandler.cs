@@ -1,16 +1,16 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using MyPregnancy.Application.Exceptions;
-using MyPregnancy.Application.Interfaces;
-using MyPregnancy.Common.Dtos;
-using MyPregnancy.Domain.Entities;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace MyPregnancy.Application.Patients.Queries.GetPatient
+﻿namespace MyPregnancy.Application.Patients.Queries.GetPatient
 {
+    using AutoMapper;
+    using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using MyPregnancy.Application.Exceptions;
+    using MyPregnancy.Application.Interfaces;
+    using MyPregnancy.Common.Dtos;
+    using MyPregnancy.Domain.Entities;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetPatientQueryHandler : IRequestHandler<GetPatientQuery, PatientDto>
     {
         private readonly IMyPregnancyDbContext _context;

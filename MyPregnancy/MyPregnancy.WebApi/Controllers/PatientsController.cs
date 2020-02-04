@@ -3,8 +3,6 @@ using MyPregnancy.Application.Patients.Queries.GetAllPatients;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MyPregnancy.Application.Patients.Commands.CreatePatient;
-using MyPregnancy.Application.Patients.Commands.DeletePatient;
-using MyPregnancy.Application.Patients.Commands.UpdatePatient;
 using MyPregnancy.Application.Patients.Queries.GetPatient;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -51,28 +49,6 @@ namespace MyPregnancy.WebApi.Controllers
             _logger.LogInformation($"Entering {nameof(Create)}");
 
             return Ok(await _mediator.Send(command));
-        }
-
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update([FromBody] UpdatePatientCommand command)
-        {
-            _logger.LogInformation($"Entering {nameof(Update)}");
-
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            _logger.LogInformation($"Entering {nameof(Delete)}/{id}");
-
-            await _mediator.Send(new DeletePatientCommand { PatientId = id });
-
-            return NoContent();
         }
     }
 }

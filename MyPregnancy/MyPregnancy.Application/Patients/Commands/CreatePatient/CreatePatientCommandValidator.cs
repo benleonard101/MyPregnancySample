@@ -31,6 +31,5 @@
             RuleFor(x => x.City).MaximumLength(24).NotEmpty();
             RuleFor(x => x.Postcode).MaximumLength(10).NotEmpty();
         }
-   
     }
 }

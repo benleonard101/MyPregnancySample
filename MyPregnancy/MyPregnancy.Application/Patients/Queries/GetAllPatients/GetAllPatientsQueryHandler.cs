@@ -1,16 +1,16 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using MyPregnancy.Application.Extensions;
-using MyPregnancy.Application.Interfaces;
-using MyPregnancy.Common.Dtos;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace MyPregnancy.Application.Patients.Queries.GetAllPatients
+﻿namespace MyPregnancy.Application.Patients.Queries.GetAllPatients
 {
+    using AutoMapper;
+    using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using MyPregnancy.Application.Extensions;
+    using MyPregnancy.Application.Interfaces;
+    using MyPregnancy.Common.Dtos;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetAllPatientsQueryHandler : IRequestHandler<GetAllPatientsQuery, IEnumerable<PatientDto>>
     {
         private readonly IMyPregnancyDbContext _context;
@@ -27,6 +27,7 @@ namespace MyPregnancy.Application.Patients.Queries.GetAllPatients
             var patients = await _context.Patient
                                 .Paginate(request)
                                 .OrderBy(p => p.Surname)
+                                .Include(md => md.MedicalDetail)
                                 .ToListAsync(cancellationToken);
 
             return _mapper.Map<IEnumerable<PatientDto>>(patients);
