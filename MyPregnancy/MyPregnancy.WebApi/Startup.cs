@@ -40,7 +40,6 @@
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
-            services.AddTransient(typeof(IRequestPreProcessor<>), typeof(RequestLogger<>));
 
 
             services.AddApplicationInsightsTelemetry();

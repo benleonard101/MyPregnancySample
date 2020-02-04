@@ -26,13 +26,15 @@
 
             public async Task<int> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
             {
-                _logger.LogInformation($"Entering {nameof(Handle)}");
+                _logger.LogInformation($"Entering {nameof(CreatePatientCommand)}");
 
                 var patient = _mapper.Map<Patient>(request);
 
                 _context.Patient.Add(patient);
+                await _context.SaveChangesAsync(cancellationToken);
 
-                return await _context.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation($"Patient {patient.PatientId} created successfully");
+                return patient.PatientId;
             }
         }
     }

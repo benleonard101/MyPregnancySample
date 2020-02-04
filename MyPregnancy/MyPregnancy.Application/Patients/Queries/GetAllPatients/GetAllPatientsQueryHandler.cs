@@ -10,20 +10,25 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
 
     public class GetAllPatientsQueryHandler : IRequestHandler<GetAllPatientsQuery, IEnumerable<PatientDto>>
     {
         private readonly IMyPregnancyDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public GetAllPatientsQueryHandler(IMyPregnancyDbContext context, IMapper mapper)
+        public GetAllPatientsQueryHandler(IMyPregnancyDbContext context, IMapper mapper, ILogger<GetAllPatientsQueryHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<PatientDto>> Handle(GetAllPatientsQuery request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Entering {nameof(GetAllPatientsQueryHandler)}");
+
             var patients = await _context.Patient
                                 .Paginate(request)
                                 .OrderBy(p => p.Surname)

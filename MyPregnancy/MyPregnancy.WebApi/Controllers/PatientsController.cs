@@ -1,6 +1,5 @@
 ﻿namespace MyPregnancy.WebApi.Controllers
 {
-    using FluentValidation;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,9 @@
     using MyPregnancy.Application.Patients.Queries.GetAllPatients;
     using MyPregnancy.Application.Patients.Queries.GetPatient;
     using System.Threading.Tasks;
+    using System.Linq;
+    using FluentValidation.Results;
+    using MyPregnancy.Application.Exceptions;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -40,8 +42,12 @@
             _logger.LogInformation($"Entering {nameof(Get)}/{id}");
 
             GetPatientQuery query = new GetPatientQuery { PatientId = id };
-            new GetPatientQueryValidator().ValidateAndThrow(query);
 
+            var validationErrors = new GetPatientQueryValidator().Validate(query).Errors;
+            if (validationErrors.Any())
+            {
+                throw new ValidationException(validationErrors.ToList());
+            }
 
             return Ok(await _mediator.Send(query));
         }

@@ -1,23 +1,14 @@
 namespace MyPregnancy.WebApi.Tests.Controllers
 {
-    using AutoFixture;
-    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using MyPregnancy.Application.Patients.Commands.CreatePatient;
-    using MyPregnancy.Application.Patients.Queries.GetAllPatients;
-    using MyPregnancy.Application.Patients.Queries.GetPatient;
-    using MyPregnancy.Common.Dtos;
-    using MyPregnancy.WebApi.Controllers;
-    using NSubstitute;
-    using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using MyPregnancy.Common;
     using MyPregnancy.Common.Dtos.Calculator;
     using MyPregnancy.TaxCalculators.Interfaces;
     using MyPregnancy.TaxCalculators.TaxCalculators;
+    using MyPregnancy.WebApi.Controllers;
+    using NSubstitute;
+    using NUnit.Framework;
 
     [TestFixture]
     public class TaxCalculatorControllerTests
@@ -26,9 +17,10 @@ namespace MyPregnancy.WebApi.Tests.Controllers
         public void TaxCalculatorController_EmployedCalculatorEnum_ReturnsOkResponse()
         {
             var loggerMock = Substitute.For<ILogger<TaxCalculatorController>>();
+            var employedLoggerMock = Substitute.For<ILogger<EmployedTaxCalculator>>();
             var factoryMock = Substitute.For<ITaxCalculatorFactory>();
             factoryMock.CreateTaxCalculator(Arg.Is<Enums.Calculator>(x => x == Enums.Calculator.Employed))
-                .Returns( new EmployedTaxCalculator());
+                .Returns( new EmployedTaxCalculator(employedLoggerMock));
             var sut = new TaxCalculatorController(loggerMock, factoryMock);
 
             var result = sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.Employed });
@@ -45,9 +37,10 @@ namespace MyPregnancy.WebApi.Tests.Controllers
         public void TaxCalculatorController_SelfEmployedCalculatorEnum_ReturnsOkResponse()
         {
             var loggerMock = Substitute.For<ILogger<TaxCalculatorController>>();
+            var selfEmployedLoggerMock = Substitute.For<ILogger<SelfEmployedTaxCalculator>>();
             var factoryMock = Substitute.For<ITaxCalculatorFactory>();
             factoryMock.CreateTaxCalculator(Arg.Is<Enums.Calculator>(x => x == Enums.Calculator.SelfEmployed))
-                .Returns(new SelfEmployedTaxCalculator());
+                .Returns(new SelfEmployedTaxCalculator(selfEmployedLoggerMock));
             var sut = new TaxCalculatorController(loggerMock, factoryMock);
 
             var result = sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.SelfEmployed });

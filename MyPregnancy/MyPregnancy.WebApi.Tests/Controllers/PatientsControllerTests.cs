@@ -14,6 +14,7 @@ namespace MyPregnancy.WebApi.Tests.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using MyPregnancy.Application.Exceptions;
 
     [TestFixture]
     public class PatientsControllerTests
@@ -75,6 +76,20 @@ namespace MyPregnancy.WebApi.Tests.Controllers
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
             Assert.That((okResult.Value as PatientDto), Is.EqualTo(patient));
             await mediatorMock.Received(1).Send(Arg.Is<GetPatientQuery>( x => x.PatientId == patientId));
+            loggerMock.Received(1);
+        }
+
+        [Test]
+        public void PatientsControllerGet_InvalidPatientId_ThrowsValidationException()
+        {
+            int patientId = 0;
+            var mediatorMock = Substitute.For<IMediator>();
+            var loggerMock = Substitute.For<ILogger<PatientsController>>();
+            var patient = new Fixture().Create<PatientDto>();
+            mediatorMock.Send(Arg.Any<GetPatientQuery>()).Returns(patient);
+            var sut = new PatientsController(mediatorMock, loggerMock);
+
+            Assert.ThrowsAsync<ValidationException>(async () => await sut.Get(patientId));
             loggerMock.Received(1);
         }
     }

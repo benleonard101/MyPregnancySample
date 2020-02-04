@@ -32,12 +32,8 @@
             {
                 name = typeof(TRequest).Name;
 
-                // TODO: Add User Details
-
-                _logger.LogWarning("Northwind Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", name, _timer.ElapsedMilliseconds, request);
+                _logger.LogWarning($"MyPregnancy request {name} completed in {_timer.ElapsedMilliseconds} milliseconds");
             }
-
-            _logger.LogWarning($"MyPregnancy request {name} completed in {_timer.ElapsedMilliseconds} milliseconds");
 
             return response;
         }

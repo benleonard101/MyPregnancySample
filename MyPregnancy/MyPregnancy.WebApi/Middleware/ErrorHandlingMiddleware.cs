@@ -32,16 +32,31 @@ namespace MyPregnancy.WebApi.Middleware
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
 
-            if (ex is NotFoundException) code = HttpStatusCode.NotFound;
-            else if (ex is ValidationException) code = HttpStatusCode.BadRequest;
+            var result = string.Empty;
 
-            var result = JsonConvert.SerializeObject(new { error = ex.Message });
+            switch (exception)
+            {
+                case ValidationException validationException:
+                    code = HttpStatusCode.BadRequest;
+                    result = JsonConvert.SerializeObject(validationException.Failures);
+                    break;
+                case NotFoundException _:
+                    code = HttpStatusCode.NotFound;
+                    break;
+            }
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
+
+            if (result == string.Empty)
+            {
+                result = JsonConvert.SerializeObject(new { error = exception.Message });
+            }
+
             return context.Response.WriteAsync(result);
         }
     }
