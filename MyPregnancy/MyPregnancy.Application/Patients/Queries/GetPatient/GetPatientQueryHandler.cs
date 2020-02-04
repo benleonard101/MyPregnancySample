@@ -18,7 +18,7 @@
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public GetPatientQueryHandler(IMyPregnancyDbContext context, IMapper mapper, ILogger logger)
+        public GetPatientQueryHandler(IMyPregnancyDbContext context, IMapper mapper, ILogger<GetPatientQueryHandler> logger)
         {
             _context = context;
             _mapper = mapper;

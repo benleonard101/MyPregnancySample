@@ -40,13 +40,12 @@
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
+            services.AddTransient<IValidator<GetPatientQuery>, GetPatientQueryValidator>();
 
             services.AddApplicationInsightsTelemetry();
             services.AddSwaggerDocument();
 
             services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>());
-
-            services.AddTransient<IValidator<GetPatientQuery>, GetPatientQueryValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
