@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyPregnancy.Application.Patients.Queries.GetAllPatients;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using MyPregnancy.Application.Patients.Commands.CreatePatient;
-using MyPregnancy.Application.Patients.Queries.GetPatient;
-using MediatR;
-using Microsoft.Extensions.Logging;
-
-namespace MyPregnancy.WebApi.Controllers
+﻿namespace MyPregnancy.WebApi.Controllers
 {
+    using FluentValidation;
+    using MediatR;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using MyPregnancy.Application.Patients.Commands.CreatePatient;
+    using MyPregnancy.Application.Patients.Queries.GetAllPatients;
+    using MyPregnancy.Application.Patients.Queries.GetPatient;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]")]
     [ApiController]
     public class PatientsController : ControllerBase
@@ -38,7 +39,11 @@ namespace MyPregnancy.WebApi.Controllers
         {
             _logger.LogInformation($"Entering {nameof(Get)}/{id}");
 
-            return Ok(await _mediator.Send(new GetPatientQuery { PatientId = id }));
+            GetPatientQuery query = new GetPatientQuery { PatientId = id };
+            new GetPatientQueryValidator().ValidateAndThrow(query);
+
+
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpPost]

@@ -18,6 +18,7 @@
     using MyPregnancy.WebApi.Middleware;
     using Persistence;
     using System.Reflection;
+    using FluentValidation;
 
     public class Startup
     {
@@ -52,6 +53,8 @@
             services.AddMvc()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddTransient<IValidator<GetPatientQuery>, GetPatientQueryValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
