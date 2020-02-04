@@ -41,7 +41,7 @@
         [Test]
         public void MyPregnancyDbContext_AddPatientToDB_PatientPersistedSuccessfully()
         {
-            Patient patient = new Patient { PatientId = 9, PreferredName = "NewPatient" };
+            Patient patient = new Patient { PreferredName = "NewPatient" };
 
             _sut.Patient.Add(patient);
             _sut.SaveChanges();

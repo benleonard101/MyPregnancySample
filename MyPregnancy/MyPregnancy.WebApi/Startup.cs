@@ -17,6 +17,7 @@
     using MyPregnancy.WebApi.Middleware;
     using Persistence;
     using System.Reflection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -27,7 +28,6 @@
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterPersistenceServices(Configuration);
@@ -41,13 +41,21 @@
             services.AddTransient<IValidator<GetPatientQuery>, GetPatientQueryValidator>();
 
             services.AddApplicationInsightsTelemetry();
-            services.AddSwaggerDocument();
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "MyPregnancy API";
+                    document.Info.Description = "A simple ASP.NET Core web API";
+                };
+            });
 
-            services.AddMvc(option => option.EnableEndpointRouting = false).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>());
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>());
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -70,10 +78,8 @@
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                scope.ServiceProvider.GetRequiredService<MyPregnancyDbContext>().Database.Migrate();
-            }
+            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            scope.ServiceProvider.GetRequiredService<MyPregnancyDbContext>().Database.Migrate();
         }
     }
 }

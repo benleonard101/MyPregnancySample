@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using MyPregnancy.Application.Exceptions;
-using Newtonsoft.Json;
-using System;
-using System.Net;
-using System.Threading.Tasks;
-
-namespace MyPregnancy.WebApi.Middleware
+﻿namespace MyPregnancy.WebApi.Middleware
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using MyPregnancy.Application.Exceptions;
+    using Newtonsoft.Json;
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using MyPregnancy.TaxCalculators.Exceptions;
+
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;

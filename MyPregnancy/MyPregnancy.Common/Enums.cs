@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class Enums
+    public static class Enums
     {
         public enum BloodGroup
         {
