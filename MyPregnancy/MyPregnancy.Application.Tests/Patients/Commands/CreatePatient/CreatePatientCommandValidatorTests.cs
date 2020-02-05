@@ -100,7 +100,7 @@
             }
 
             [Test]
-            public void CreatePatientCommandValidator_ValidateMaxLengthHomeWhenMobileIsNull_ValidationFails()
+            public void CreatePatientCommandValidator_ValidateMaxLengthHomeWhenMobileIsNull_HomeTelephoneValidationFails()
             {
                 var patientCommand = _fixture
                     .Build<CreatePatientCommand>()
@@ -125,7 +125,7 @@
             }
 
             [Test]
-            public void CreatePatientCommandValidator_ValidateMaxLengthMobileWhenHomeIsNull_ValidationFails()
+            public void CreatePatientCommandValidator_ValidateMaxLengthMobileWhenHomeIsNull_MobileTelephoneValidationFails()
             {
                 var patientCommand = _fixture
                     .Build<CreatePatientCommand>()
@@ -150,7 +150,7 @@
             }
 
             [Test]
-            public void CreatePatientCommandValidator_ValidateMaxLengthHomeWhenMobileIsEmpty_ValidationFails()
+            public void CreatePatientCommandValidator_ValidateMaxLengthHomeWhenMobileIsEmpty_HomeTelephoneValidationFails()
             {
                 var patientCommand = _fixture
                     .Build<CreatePatientCommand>()
@@ -175,7 +175,7 @@
             }
 
             [Test]
-            public void CreatePatientCommandValidator_ValidateMaxLengthMobileWhenHomeIsEmpty_ValidationFails()
+            public void CreatePatientCommandValidator_ValidateMaxLengthMobileWhenHomeIsEmpty_MobileTelephoneValidationFails()
             {
                 var patientCommand = _fixture
                     .Build<CreatePatientCommand>()
@@ -200,7 +200,7 @@
             }
 
             [Test]
-            public void CreatePatientCommandValidator_InvalidBloodGroup_ValidationFails()
+            public void CreatePatientCommandValidator_InvalidBloodGroup_BloodGroupValidationFails()
             {
                 var patientCommand = _fixture
                     .Build<CreatePatientCommand>()
