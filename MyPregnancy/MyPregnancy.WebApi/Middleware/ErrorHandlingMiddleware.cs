@@ -10,6 +10,8 @@
 
     public class ErrorHandlingMiddleware
     {
+        private const string GenericError = "Something went wrong";
+        private const string ApplicationJson = "application/json";
         private readonly RequestDelegate next;
         private readonly ILogger _logger;
 
@@ -48,11 +50,11 @@
                     break;
                 default:
                     code = HttpStatusCode.InternalServerError;
-                    result = "Something went wrong";
+                    result = GenericError;
                     break;
             }
 
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = ApplicationJson;
             context.Response.StatusCode = (int)code;
 
             if (result == string.Empty)
