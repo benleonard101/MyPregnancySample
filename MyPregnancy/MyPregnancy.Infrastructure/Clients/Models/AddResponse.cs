@@ -1,8 +1,5 @@
 ﻿namespace MyPregnancy.Infrastructure.Clients.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Xml.Serialization;
 
     [XmlRoot(ElementName = "AddResponse", Namespace = "http://tempuri.org/")]
