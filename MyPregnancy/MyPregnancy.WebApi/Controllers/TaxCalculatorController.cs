@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Logging;
     using MyPregnancy.Common.Dtos.Calculator;
     using MyPregnancy.TaxCalculators.Interfaces;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -21,13 +22,13 @@
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetTaxCalculation([FromQuery] TaxCalculationDto dto)
+        public async Task<IActionResult> GetTaxCalculation([FromQuery] TaxCalculationDto dto)
         {
             _logger.LogInformation($"Entering {nameof(GetTaxCalculation)}");
 
             var taxCalculator = _taxCalculatorFactory.CreateTaxCalculator(dto.CalculationType);
 
-            var taxCalculationSummary = taxCalculator.CalculateTax();
+            var taxCalculationSummary = await taxCalculator.CalculateTax();
 
             return Ok(taxCalculationSummary);
         }

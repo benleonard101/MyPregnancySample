@@ -11,7 +11,6 @@
             services.AddTransient<ITaxCalculatorFactory, TaxCalculatorFactory>();
             services.AddTransient<ITaxCalculator, SelfEmployedTaxCalculator>();
             services.AddTransient<ITaxCalculator, EmployedTaxCalculator>();
-
         }
     }
 }

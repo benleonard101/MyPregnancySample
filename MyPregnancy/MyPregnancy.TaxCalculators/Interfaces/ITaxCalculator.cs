@@ -2,11 +2,12 @@
 {
     using MyPregnancy.Common;
     using MyPregnancy.Common.Dtos.Calculator;
+    using System.Threading.Tasks;
 
     public interface ITaxCalculator
     {
         Enums.Calculator Calculator { get; }
 
-        TaxCalculationSummary CalculateTax();
+        Task<TaxCalculationSummary> CalculateTax();
     }
 }

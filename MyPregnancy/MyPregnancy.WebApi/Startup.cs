@@ -18,6 +18,10 @@
     using Persistence;
     using System.Reflection;
     using Microsoft.Extensions.Hosting;
+    using MyPregnancy.Infrastructure;
+    using MyPregnancy.Infrastructure.Clients.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     public class Startup
     {
@@ -33,6 +37,7 @@
             services.RegisterPersistenceServices(Configuration);
             services.RegisterApplicationServices();
             services.RegisterTaxCalculatorServices();
+            services.RegisterInfrastructureServices();
 
             services.AddMediatR(typeof(GetPatientQueryHandler).GetTypeInfo().Assembly);
 
@@ -51,8 +56,11 @@
                 };
             });
 
-            services.AddMvc(option => option.EnableEndpointRouting = false)
+            services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientCommandValidator>());
+
+            services.Configure<CalculatorClientConfiguration>(Configuration.GetSection("CalculatorClientConfiguration"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

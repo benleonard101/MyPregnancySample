@@ -9,48 +9,60 @@ namespace MyPregnancy.WebApi.Tests.Controllers
     using MyPregnancy.WebApi.Controllers;
     using NSubstitute;
     using NUnit.Framework;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class TaxCalculatorControllerTests
     {
         [Test]
-        public void TaxCalculatorController_EmployedCalculatorEnum_ReturnsOkResponse()
+        public async Task TaxCalculatorController_EmployedCalculatorEnum_ReturnsOkResponse()
         {
             var loggerMock = Substitute.For<ILogger<TaxCalculatorController>>();
             var employedLoggerMock = Substitute.For<ILogger<EmployedTaxCalculator>>();
             var factoryMock = Substitute.For<ITaxCalculatorFactory>();
+            var calculatorClientMock = Substitute.For<ICalculatorClient>();
+
+            calculatorClientMock.Add(Arg.Is(1), Arg.Is(9)).Returns(10);
             factoryMock.CreateTaxCalculator(Arg.Is<Enums.Calculator>(x => x == Enums.Calculator.Employed))
-                .Returns( new EmployedTaxCalculator(employedLoggerMock));
+                .Returns( new EmployedTaxCalculator(employedLoggerMock, calculatorClientMock));
             var sut = new TaxCalculatorController(loggerMock, factoryMock);
 
-            var result = sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.Employed });
+            var result = await sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.Employed });
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            var responseString = (okResult.Value as TaxCalculationSummary).CalculatorName;
-            Assert.That(responseString, Is.EqualTo(nameof(EmployedTaxCalculator)));
+            var taxCalculationSummary = (okResult.Value as TaxCalculationSummary);
+            Assert.That(taxCalculationSummary.CalculatorName, Is.EqualTo(nameof(EmployedTaxCalculator)));
+            Assert.That(taxCalculationSummary.TotalTax, Is.EqualTo(10));
             loggerMock.Received(1);
+            calculatorClientMock.Received(1);
         }
 
         [Test]
-        public void TaxCalculatorController_SelfEmployedCalculatorEnum_ReturnsOkResponse()
+        public async Task TaxCalculatorController_SelfEmployedCalculatorEnum_ReturnsOkResponse()
         {
             var loggerMock = Substitute.For<ILogger<TaxCalculatorController>>();
             var selfEmployedLoggerMock = Substitute.For<ILogger<SelfEmployedTaxCalculator>>();
             var factoryMock = Substitute.For<ITaxCalculatorFactory>();
+            var calculatorClientMock = Substitute.For<ICalculatorClient>();
+
+
+            calculatorClientMock.Add(Arg.Is(9), Arg.Is(9)).Returns(11);
             factoryMock.CreateTaxCalculator(Arg.Is<Enums.Calculator>(x => x == Enums.Calculator.SelfEmployed))
-                .Returns(new SelfEmployedTaxCalculator(selfEmployedLoggerMock));
+                .Returns(new SelfEmployedTaxCalculator(selfEmployedLoggerMock, calculatorClientMock));
             var sut = new TaxCalculatorController(loggerMock, factoryMock);
 
-            var result = sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.SelfEmployed });
+            var result = await sut.GetTaxCalculation(new TaxCalculationDto { CalculationType = Enums.Calculator.SelfEmployed });
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            var responseString = (okResult.Value as TaxCalculationSummary).CalculatorName;
-            Assert.That(responseString, Is.EqualTo(nameof(SelfEmployedTaxCalculator)));
+            var taxCalculationSummary = (okResult.Value as TaxCalculationSummary);
+            Assert.That(taxCalculationSummary.CalculatorName, Is.EqualTo(nameof(SelfEmployedTaxCalculator)));
+            Assert.That(taxCalculationSummary.TotalTax, Is.EqualTo(19));
             loggerMock.Received(1);
+            calculatorClientMock.Received(1);
         }
     }
 }

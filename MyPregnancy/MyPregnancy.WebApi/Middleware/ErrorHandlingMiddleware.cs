@@ -7,7 +7,6 @@
     using System;
     using System.Net;
     using System.Threading.Tasks;
-    using MyPregnancy.TaxCalculators.Exceptions;
 
     public class ErrorHandlingMiddleware
     {
