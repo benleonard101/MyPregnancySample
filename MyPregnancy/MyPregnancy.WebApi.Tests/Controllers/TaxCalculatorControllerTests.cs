@@ -48,7 +48,7 @@ namespace MyPregnancy.WebApi.Tests.Controllers
             var calculatorClientMock = Substitute.For<ICalculatorClient>();
 
 
-            calculatorClientMock.Add(Arg.Is(9), Arg.Is(9)).Returns(11);
+            calculatorClientMock.Add(Arg.Is(9), Arg.Is(9)).Returns(18);
             factoryMock.CreateTaxCalculator(Arg.Is<Enums.Calculator>(x => x == Enums.Calculator.SelfEmployed))
                 .Returns(new SelfEmployedTaxCalculator(selfEmployedLoggerMock, calculatorClientMock));
             var sut = new TaxCalculatorController(loggerMock, factoryMock);
@@ -60,7 +60,7 @@ namespace MyPregnancy.WebApi.Tests.Controllers
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
             var taxCalculationSummary = (okResult.Value as TaxCalculationSummary);
             Assert.That(taxCalculationSummary.CalculatorName, Is.EqualTo(nameof(SelfEmployedTaxCalculator)));
-            Assert.That(taxCalculationSummary.TotalTax, Is.EqualTo(19));
+            Assert.That(taxCalculationSummary.TotalTax, Is.EqualTo(18));
             loggerMock.Received(1);
             calculatorClientMock.Received(1);
         }
