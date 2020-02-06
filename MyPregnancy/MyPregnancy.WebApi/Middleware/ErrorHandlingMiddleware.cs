@@ -34,9 +34,8 @@
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = HttpStatusCode.InternalServerError;
-
-            var result = string.Empty;
+            HttpStatusCode code;
+            string result = string.Empty;
 
             switch (exception)
             {
@@ -46,6 +45,10 @@
                     break;
                 case NotFoundException _:
                     code = HttpStatusCode.NotFound;
+                    break;
+                default:
+                    code = HttpStatusCode.InternalServerError;
+                    result = "Something went wrong";
                     break;
             }
 

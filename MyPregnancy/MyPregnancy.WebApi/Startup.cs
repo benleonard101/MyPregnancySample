@@ -79,6 +79,7 @@
             app.UseHttpsRedirection();
             app.UseOpenApi();
             app.UseSwaggerUi3();
+            app.UseSecurityHeaders();
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
